@@ -223,7 +223,7 @@ else:
     videoFilename = videoSource + '.video.' + videoCodec.lower()
     cmd = 'mkvextract ' + mkvFile + ' tracks'
     cmd += ' ' + str(int(media_info.video_tracks[0].track_id)-1) + ':' + videoFilename
-    # subprocess.run(cmd, shell=True)
+    subprocess.run(cmd, shell=True)
     summary += f"File {Fore.BLUE}{videoFilename}{Style.RESET_ALL} created.\n"
     if videoCodec == "HEVC" and local:
         destFile = 'RPU.edits.json'
