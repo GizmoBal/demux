@@ -453,7 +453,8 @@ for track in media_info.tracks:
         else:
             tag = ' --tags 0:' + subSource[track.track_id] + '.tag.xml'
         if track.title is not None:
-            title = re.sub('"', '\\\\"', track.title)
+            title = re.sub('"', '\\\\\"', track.title)
+            title = re.sub("''", '\'\"\'\"\'', track.title)
             title = ' --track-name 0:"' + title
         else:
             title = ''
