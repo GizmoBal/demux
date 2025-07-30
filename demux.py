@@ -441,9 +441,9 @@ for track in media_info.tracks:
             delay = ' --sync 0:' + str(audioDelay[track.track_id])
         if track.title is not None:
             title = re.sub('"', '\\\\"', track.title)
-            title = 
-        else:
             title = ' --track-name 0:"' + title
+        else:
+            title = ''
         muxCommand += '# --default-track-flag 0:' + track.default.lower() + tag + delay + title + '" --language 0:' + track.language + ' "' + audioFilename[track.track_id] + '" \\\n'
     if track.track_type == "Text":
         if subSource[track.track_id] is None:
