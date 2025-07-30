@@ -221,7 +221,7 @@ else:
     videoFilename = videoSource + '.video.' + videoCodec.lower()
     cmd = 'mkvextract ' + mkvFile + ' tracks'
     cmd += ' ' + str(int(media_info.video_tracks[0].track_id)-1) + ':' + videoFilename
-    subprocess.run(cmd, shell=True)
+    # subprocess.run(cmd, shell=True)
     summary += f"File {Fore.BLUE}{videoFilename}{Style.RESET_ALL} created.\n"
     if videoCodec == "HEVC" and local:
         destFile = 'RPU.edits.json'
@@ -403,8 +403,13 @@ for track in media_info.tracks:
 
 summary += f"{Style.BRIGHT}{Fore.BLUE}Muxing command{Style.RESET_ALL}: {totalTrack} tracks.\n"
 
-movieName = media_info.general_tracks[0].movie_name
 fileName = media_info.general_tracks[0].file_name_extension
+if media_info.general_tracks[0].movie_name is not None:
+    movieName = re.sub('"', '\\\\\"', media_info.general_tracks[0].movie_name)
+    movieName = re.sub("''", '\'\"\'\"\'', movieName)
+    movieName = ' --track-name 0:"' + movieName + '"'
+else:
+    movieName = ''
 
 if not args.remux:
     fileName = re.sub(r".Remux.*VC", "", fileName)
@@ -446,12 +451,12 @@ for track in media_info.tracks:
         else:
             delay = ' --sync 0:' + str(audioDelay[track.track_id])
         if track.title is not None:
-            title = re.sub('"', '\\\\\"', track.title)
-            title = re.sub("''", '\'\"\'\"\'', track.title)
-            title = ' --track-name 0:"' + title
+            title = re.sub('"', '\\\\\\\"', track.title)
+            title = re.sub("'", '\'\"\'\"\'', title)
+            title = ' --track-name 0:"' + title + '"'
         else:
             title = ''
-        muxCommand += '# --default-track-flag 0:' + track.default.lower() + tag + delay + title + '" --language 0:' + track.language + ' "' + audioFilename[track.track_id] + '" \\\n'
+        muxCommand += '# --default-track-flag 0:' + track.default.lower() + tag + delay + title + ' --language 0:' + track.language + ' "' + audioFilename[track.track_id] + '" \\\n'
     if track.track_type == "Text":
         if subSource[track.track_id] is None:
             tag = ''
@@ -461,8 +466,8 @@ for track in media_info.tracks:
             tag = ' --tags 0:' + subSource[track.track_id] + '.tag.xml'
         if track.title is not None:
             title = re.sub('"', '\\\\\"', track.title)
-            title = re.sub("''", '\'\"\'\"\'', track.title)
-            title = ' --track-name 0:"' + title
+            title = re.sub("''", '\'\"\'\"\'', title)
+            title = ' --track-name 0:"' + title + '"'
         else:
             title = ''
         if subFilename[track.track_id][-3:] == "sup":
