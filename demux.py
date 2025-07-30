@@ -404,12 +404,23 @@ for track in media_info.tracks:
 summary += f"{Style.BRIGHT}{Fore.BLUE}Muxing command{Style.RESET_ALL}: {totalTrack} tracks.\n"
 
 fileName = media_info.general_tracks[0].file_name_extension
+fileName = re.sub('"', '\\\\\"', fileName)
+fileName = re.sub("''", '\'\"\'\"\'', fileName)
 if media_info.general_tracks[0].movie_name is not None:
     movieName = re.sub('"', '\\\\\"', media_info.general_tracks[0].movie_name)
     movieName = re.sub("''", '\'\"\'\"\'', movieName)
     movieName = ' --track-name 0:"' + movieName + '"'
 else:
     movieName = ''
+if media_info.video_tracks[0].title is not None:
+    videoTitle = ' --track-name 0:"' + media_info.video_tracks[0].title + '"'
+else:
+    videoTitle = ''
+if sourceTags[media_info.tracks[1].source] is not None:
+    videoTag = ' --tags 0:' + sourceTags[media_info.tracks[1].source] + '.disc.tag.xml'
+else:
+    videoTag = ''
+
 
 if not args.remux:
     fileName = re.sub(r".Remux.*VC", "", fileName)
@@ -425,18 +436,12 @@ if not args.remux:
 
     muxCommand = '# subprocess.run(\'mkvmerge --title "' + movieName + \
         '" \\\n# --stop-after-video-ends --global-tags imdb.tag.xml --chapters chapters.xml -v -o "' + fileName + '" \\\n'
-    muxCommand += '# --default-track-flag 0:yes --tags 0:' + sourceTags[media_info.tracks[1].source] + '.disc.tag.xml --language 0:eng "1080p.' + encoder + '" \\\n'
+    muxCommand += '# --default-track-flag 0:yes' + videoTag + videoTitle + ' --language 0:eng "1080p.' + encoder + '" \\\n'
 else:
     vsFile = 'remux.vpy'
-    # if track.title is not None:
-    #     title = re.sub('"', '\\\\\"', track.title)
-    #     title = re.sub("''", '\'\"\'\"\'', track.title)
-    #     title = ' --track-name 0:"' + title
-    # else:
-    #     title = ''
     muxCommand = '# subprocess.run(\'mkvmerge --title "' + movieName + \
         '" \\\n# --stop-after-video-ends --global-tags imdb.tag.xml --chapters chapters.xml -v -o "' + fileName + '" \\\n'
-    muxCommand += '# --default-track-flag 0:yes --tags 0:' + sourceTags[media_info.tracks[1].source] + '.disc.tag.xml --language 0:eng "' + videoFilename + '" \\\n'
+    muxCommand += '# --default-track-flag 0:yes' + videoTag + videoTitle + ' --language 0:eng "' + videoFilename + '" \\\n'
 
 for track in media_info.tracks:
     if track.track_type == "Audio":
