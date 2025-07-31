@@ -403,8 +403,6 @@ for track in media_info.tracks:
     if track.track_id is not None:
         totalTrack += 1
 
-summary += f"{Style.BRIGHT}{Fore.BLUE}Muxing command{Style.RESET_ALL}: {totalTrack} tracks.\n"
-
 fileName = media_info.general_tracks[0].file_name_extension
 fileName = re.sub('"', '\\\\\"', fileName)
 fileName = re.sub("''", '\'\"\'\"\'', fileName)
@@ -508,6 +506,15 @@ else:
 vsContent = content.read()
 content.close()
 
+if os.path.exists(vsFile):
+    print('')
+    print(f"File {Fore.BLUE}{vsFile}{Style.RESET_ALL} already exists. {Fore.RED}Overwrite?{Style.RESET_ALL} (y/N)")
+    answer = input()
+    if answer.lower() != 'y':
+        summary = summaryTags + summary
+        print(summary)
+        sys.exit()
+
 vapoursynthFile = Path(vsFile)
 if local:
     oldMkvMerge = re.search(r"# subprocess.run\('mkvmerge --title \"(.|\n)*\.(srt|sup)\" \\\n# ', shell=True\)", vsContent, re.MULTILINE).group()
@@ -517,9 +524,11 @@ else:
     muxCommand = re.sub('# ','',muxCommand)
     vapoursynthFile.write_text(vsContent.replace(oldMkvMerge,muxCommand))
 
-summary += f"File {Fore.BLUE}{vsFile}{Style.RESET_ALL} created.\n"
 
+summary += f"{Style.BRIGHT}{Fore.BLUE}Muxing command{Style.RESET_ALL}: {totalTrack} tracks.\n"
+summary += f"File {Fore.BLUE}{vsFile}{Style.RESET_ALL} created.\n"
 summary = summaryTags + summary
+
 print('')
 print(summary)
 
