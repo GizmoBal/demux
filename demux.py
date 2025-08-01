@@ -404,10 +404,10 @@ for track in media_info.tracks:
         totalTrack += 1
 
 fileName = media_info.general_tracks[0].file_name_extension
-fileName = re.sub('"', '\\\\\"', fileName)
+fileName = re.sub('"', '\\\\\\\\\"', fileName)
 fileName = re.sub("'", '\'\"\'\"\'', fileName)
 if media_info.general_tracks[0].movie_name is not None:
-    movieName = re.sub('"', '\\\\\"', media_info.general_tracks[0].movie_name)
+    movieName = re.sub('"', '\\\\\\\\\"', media_info.general_tracks[0].movie_name)
     movieName = re.sub("'", '\'\"\'\"\'', movieName)
 else:
     movieName = ''
