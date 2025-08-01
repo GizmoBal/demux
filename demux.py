@@ -409,7 +409,6 @@ fileName = re.sub("''", '\'\"\'\"\'', fileName)
 if media_info.general_tracks[0].movie_name is not None:
     movieName = re.sub('"', '\\\\\"', media_info.general_tracks[0].movie_name)
     movieName = re.sub("''", '\'\"\'\"\'', movieName)
-    movieName = ' --track-name 0:"' + movieName + '"'
 else:
     movieName = ''
 if media_info.video_tracks[0].title is not None:
