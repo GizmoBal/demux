@@ -128,7 +128,13 @@ for track in media_info.tracks:
         elif "laserdisc" in source.lower():
             newItem = {source: 'ld'}
             discTags.update(newItem)
-        # elif "ray" in source.lower():
+        elif "ray" in source.lower():
+            if re.match(r".* [A-Z][A-Z][A-Z] .*",source):
+                code = re.search(r" [A-Z][A-Z][A-Z] ",source).group().strip().lower()
+                newItem = {source: code}
+            else:
+                newItem = {source: 'bluray'}
+            discTags.update(newItem)
         elif re.match(r".*[A-Z][A-Z][A-Z].*",source):
             code = re.search(r"[A-Z][A-Z][A-Z]",source).group().strip().lower()
             newItem = {source: code}
@@ -445,7 +451,7 @@ else:
 
 for track in media_info.tracks:
     if track.track_type == "Audio":
-        if audioSource[track.track_id] is None:
+        if not track.track_id in audioSource.keys() or audioSource[track.track_id] is None:
             tag = ''
         elif "web" not in track.source.lower():
             tag = ' --tags 0:' + audioSource[track.track_id] + '.disc.tag.xml'
@@ -463,7 +469,7 @@ for track in media_info.tracks:
             title = ''
         muxCommand += '# --default-track-flag 0:' + track.default.lower() + tag + delay + title + ' --language 0:' + track.language + ' "' + audioFilename[track.track_id] + '" \\\n'
     if track.track_type == "Text":
-        if subSource[track.track_id] is None:
+        if not track.track_id in subSource.keys() or subSource[track.track_id] is None:
             tag = ''
         elif "web" not in track.source.lower():
             tag = ' --tags 0:' + subSource[track.track_id] + '.disc.tag.xml'
