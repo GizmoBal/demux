@@ -17,7 +17,7 @@ python3 path/to/demux.py -r Madagascar.2005.test.2160p.UHD.Blu-ray.Remux.DV.HDR.
 will extract all the files necessary to mux it back and store the corresponding `mkvmerge` command in a `remux.py` file.
 
 ```
-python3 path/to/demux.py demux.py Madagascar.2005.test.2160p.UHD.Blu-ray.Remux.DV.HDR.HEVC.TrueHD.Atmos.7.1-CiNEPHiLES.mkv
+python3 path/to/demux.py Madagascar.2005.test.2160p.UHD.Blu-ray.Remux.DV.HDR.HEVC.TrueHD.Atmos.7.1-CiNEPHiLES.mkv
 ```
 is intended for the encoder. It will not extract the video file, but instead the DoVi and HDR10+ metadata and process them for encoding.
 
