@@ -528,7 +528,7 @@ if local:
     oldMkvMerge = re.search(r"# subprocess.run\('mkvmerge --title \"(.|\n)*\.(srt|sup)\" \\\n# ', shell=True\)", vsContent, re.MULTILINE).group()
     vapoursynthFile.write_text(vsContent.replace(oldMkvMerge,muxCommand).replace(oldLoading,newLoading))
 else:
-    oldMkvMerge = re.search(r"subprocess.run\('mkvmerge --title \"(.|\n)*\.(srt|sup)\" \\\n# ', shell=True\)", vsContent, re.MULTILINE).group()
+    oldMkvMerge = re.search(r"subprocess.run\('mkvmerge --title \"(.|\n)*\.(srt|sup)\" \\\n', shell=True\)", vsContent, re.MULTILINE).group()
     muxCommand = re.sub('# ','',muxCommand)
     vapoursynthFile.write_text(vsContent.replace(oldMkvMerge,muxCommand))
 
