@@ -48,7 +48,7 @@ WEB_NAMES = {'itunes': 'iTunes WEB-DL', \
 AUDIO_CODECS = {'A_TRUEHD': 'thd', 'A_DTS': 'dtsma', 'A_FLAC': 'flac', 'A_AC3': 'ac3'}
 
 SUB_CODECS = {'S_HDMV/PGS': 'sup', \
-              'S_TEXT/UTF8': 'srt' \
+              'S_TEXT/UTF8': 'srt', \
               'S_VOBSUB': 'sub' \
               }
 
@@ -490,7 +490,7 @@ for track in media_info.tracks:
             zlib = ' --compression 0:none'
         else:
             zlib = ''
-        language = re.search(r"\.([^.]*)\.(sup|srt)$", subFilename[track.track_id]).group(1)
+        language = re.search(r"\.([^.]*)\.(sup|srt|sub)$", subFilename[track.track_id]).group(1)
         language = ' --language 0:' + language 
         if track.title is not None and "sdh" in track.title.lower():
             sdh = ' --hearing-impaired-flag 0:yes'
@@ -528,10 +528,10 @@ if os.path.exists(vsFile):
 
 vapoursynthFile = Path(vsFile)
 if local:
-    oldMkvMerge = re.search(r"# subprocess.run\('mkvmerge --title \"(.|\n)*\.(srt|sup)\" \\\n# ', shell=True\)", vsContent, re.MULTILINE).group()
+    oldMkvMerge = re.search(r"# subprocess.run\('mkvmerge --title \"(.|\n)*\.(srt|sup|sub)\" \\\n# ', shell=True\)", vsContent, re.MULTILINE).group()
     vapoursynthFile.write_text(vsContent.replace(oldMkvMerge,muxCommand).replace(oldLoading,newLoading))
 else:
-    oldMkvMerge = re.search(r"subprocess.run\('mkvmerge --title \"(.|\n)*\.(srt|sup)\" \\\n', shell=True\)", vsContent, re.MULTILINE).group()
+    oldMkvMerge = re.search(r"subprocess.run\('mkvmerge --title \"(.|\n)*\.(srt|sup|sub)\" \\\n', shell=True\)", vsContent, re.MULTILINE).group()
     muxCommand = re.sub('# ','',muxCommand)
     vapoursynthFile.write_text(vsContent.replace(oldMkvMerge,muxCommand))
 
