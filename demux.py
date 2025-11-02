@@ -486,7 +486,7 @@ for track in media_info.tracks:
             title = ' --track-name 0:"' + title + '"'
         else:
             title = ''
-        if subFilename[track.track_id][-3:] == "sup":
+        if subFilename[track.track_id][-3:] == "sup" or subFilename[track.track_id][-3:] == "sub":
             zlib = ' --compression 0:none'
         else:
             zlib = ''
