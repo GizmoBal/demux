@@ -97,7 +97,7 @@ media_info = MediaInfo.parse(mkvFile)
 
 summaryTags = f"{Style.BRIGHT}{Fore.BLUE}Tags{Style.RESET_ALL}\n"
 
-cmd = 'mkvextract ' + mkvFile + ' chapters chapters.xml'
+cmd = 'mkvextract "' + mkvFile + '" chapters chapters.xml'
 subprocess.run(cmd, shell=True)
 summaryTags += f"File {Fore.BLUE}chapters.xml{Style.RESET_ALL} created.\n"
 
@@ -185,10 +185,10 @@ else:
 summary += f"{Style.BRIGHT}{Fore.BLUE}Video{Style.RESET_ALL}: {video}\n"
 if not args.remux:
     if "Dolby Vision" in video:
-        cmd = 'ffmpeg -i ' + mkvFile + ' -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool extract-rpu -o RPU-orig.bin -'
+        cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool extract-rpu -o RPU-orig.bin -'
         subprocess.run(cmd, shell=True)
     if "HDR10+" in video:
-        cmd = 'ffmpeg -i ' + mkvFile + ' -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | hdr10plus_tool extract -o HDR10plus-orig.json -'
+        cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | hdr10plus_tool extract -o HDR10plus-orig.json -'
         subprocess.run(cmd, shell=True)
     if "Dolby Vision" in video:
         summary += f"File {Fore.BLUE}RPU-orig.bin{Style.RESET_ALL} created.\n"
@@ -215,13 +215,13 @@ if not args.remux:
             else:
                 FEL= True
             if FEL:
-                cmd = 'ffmpeg -i ' + mkvFile + ' -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool demux --el-only -'
+                cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool demux --el-only -'
                 subprocess.run(cmd, shell=True)
-                subprocess.run('mkvmerge -v -o EL.mkv EL.hevc', shell=True)
+                # subprocess.run('mkvmerge -v -o EL.mkv EL.hevc', shell=True)
                 subprocess.run('dovi_tool -c -m 2 extract-rpu -o RPU.bin EL.hevc', shell=True)
                 summary += f"File {Fore.BLUE}EL.mkv{Style.RESET_ALL} created.\n"
             else:
-                cmd = 'ffmpeg -i ' + mkvFile + ' -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool -c -m 2 extract-rpu -o RPU.bin -'
+                cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool -c -m 2 extract-rpu -o RPU.bin -'
                 subprocess.run(cmd, shell=True)
             summary += f"File {Fore.BLUE}RPU.bin{Style.RESET_ALL} created.\n"
 else:
@@ -231,7 +231,7 @@ else:
             videoSource = sourceTags[src]
             break
     videoFilename = videoSource + '.video.' + videoCodec.lower()
-    cmd = 'mkvextract ' + mkvFile + ' tracks'
+    cmd = 'mkvextract "' + mkvFile + '" tracks'
     cmd += ' ' + str(int(media_info.video_tracks[0].track_id)-1) + ':' + videoFilename
     subprocess.run(cmd, shell=True)
     summary += f"File {Fore.BLUE}{videoFilename}{Style.RESET_ALL} created.\n"
@@ -268,7 +268,7 @@ for track in media_info.tracks:
             audioDelay.update({track.track_id: track.delay_relative_to_video})
         audioCodec.update({track.track_id: AUDIO_CODECS[track.codec_id]})
         for src in sourceTags.keys():
-            if src == track.source or src in track.source.lower():
+            if (  track.source is not None ) and (  src == track.source or src in track.source.lower() ):
                 audioSource.update({track.track_id: sourceTags[src]})
                 break
         if not track.track_id in audioSource.keys() or audioSource[track.track_id] is None:
@@ -292,7 +292,7 @@ for ind in audioSource.keys():
 
 
 summary += f"{Style.BRIGHT}{Fore.BLUE}Audio{Style.RESET_ALL}: {Fore.BLUE}{len(audioCodec)}{Style.RESET_ALL} tracks in remux.\n"
-cmd = 'mkvextract ' + mkvFile + ' tracks'
+cmd = 'mkvextract "' + mkvFile + '" tracks'
 for ind in audioFilename.keys():
     cmd += ' ' + str(int(ind)-1) + ':' + audioFilename[ind]
 for ind in audioFilename.keys():
@@ -309,7 +309,7 @@ for track in media_info.tracks:
     if track.track_type == "Text":
         subCodec.update({track.track_id: SUB_CODECS[track.codec_id]})
         for src in sourceTags.keys():
-            if src == track.source or src in track.source.lower():
+            if (  track.source is not None ) and (  src == track.source or src in track.source.lower() ):
                 subSource.update({track.track_id: sourceTags[src]})
                 break
         if not track.track_id in subSource.keys() or subSource[track.track_id] is None:
@@ -427,7 +427,7 @@ if media_info.video_tracks[0].title is not None:
     videoTitle = ' --track-name 0:"' + media_info.video_tracks[0].title + '"'
 else:
     videoTitle = ''
-if sourceTags[media_info.tracks[1].source] is not None:
+if media_info.tracks[1].source is not None and sourceTags[media_info.tracks[1].source] is not None:
     videoTag = ' --tags 0:' + sourceTags[media_info.tracks[1].source] + '.disc.tag.xml'
 else:
     videoTag = ''
@@ -458,7 +458,7 @@ for track in media_info.tracks:
     if track.track_type == "Audio":
         if not track.track_id in audioSource.keys() or audioSource[track.track_id] is None:
             tag = ''
-        elif "web" not in track.source.lower():
+        elif track.source is not None and "web" not in track.source.lower():
             tag = ' --tags 0:' + audioSource[track.track_id] + '.disc.tag.xml'
         else:
             tag = ' --tags 0:' + audioSource[track.track_id] + '.tag.xml'
@@ -476,7 +476,7 @@ for track in media_info.tracks:
     if track.track_type == "Text":
         if not track.track_id in subSource.keys() or subSource[track.track_id] is None:
             tag = ''
-        elif "web" not in track.source.lower():
+        elif track.source is not None and "web" not in track.source.lower():
             tag = ' --tags 0:' + subSource[track.track_id] + '.disc.tag.xml'
         else:
             tag = ' --tags 0:' + subSource[track.track_id] + '.tag.xml'
