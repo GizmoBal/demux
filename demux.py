@@ -49,6 +49,7 @@ AUDIO_CODECS = {'A_TRUEHD': 'thd', 'A_DTS': 'dtsma', 'A_FLAC': 'flac', 'A_AC3': 
 
 SUB_CODECS = {'S_HDMV/PGS': 'sup', \
               'S_TEXT/UTF8': 'srt' \
+              'S_VOBSUB': 'sub' \
               }
 
 def findDuplicate(dictionary):
