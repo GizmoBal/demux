@@ -16,7 +16,7 @@ WEB_TAGS = {'itunes': 'itunes', \
             'amazon': 'amzn', \
             'disney': 'dsnp', \
             'max': 'hmax', \
-            'anywhere': 'ma'
+            'anywhere': 'ma', \
             'skyshowtime': 'skst', \
             'filmin': 'flmn', \
             'mubi': 'mubi', \
