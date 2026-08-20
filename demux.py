@@ -423,6 +423,12 @@ if not args.remux:
     muxCommand += '# --default-track-flag 0:yes --tags 0:' + sourceTags[media_info.tracks[1].source] + '.disc.tag.xml --language 0:eng "1080p.' + encoder + '" \\\n'
 else:
     vsFile = 'remux.vpy'
+    # if track.title is not None:
+    #     title = re.sub('"', '\\\\\"', track.title)
+    #     title = re.sub("''", '\'\"\'\"\'', track.title)
+    #     title = ' --track-name 0:"' + title
+    # else:
+    #     title = ''
     muxCommand = '# subprocess.run(\'mkvmerge --title "' + movieName + \
         '" \\\n# --stop-after-video-ends --global-tags imdb.tag.xml --chapters chapters.xml -v -o "' + fileName + '" \\\n'
     muxCommand += '# --default-track-flag 0:yes --tags 0:' + sourceTags[media_info.tracks[1].source] + '.disc.tag.xml --language 0:eng "' + videoFilename + '" \\\n'
