@@ -16,6 +16,7 @@ WEB_TAGS = {'itunes': 'itunes', \
             'amazon': 'amzn', \
             'disney': 'dsnp', \
             'max': 'hmax', \
+            'anywhere': 'ma'
             'skyshowtime': 'skst', \
             'filmin': 'flmn', \
             'mubi': 'mubi', \
@@ -31,6 +32,7 @@ WEB_NAMES = {'itunes': 'iTunes WEB-DL', \
              'amzn': 'Amazon Prime WEB-DL', \
              'dsnp': 'Disney+ WEB-DL', \
              'hmax': 'HBO Max WEB-DL', \
+             'ma': 'Movies Anywhere WEB-DL', \
              'skst': 'SkyShowtime WEB-DL', \
              'flmn': 'Filmin WEB-DL', \
              'mubi': 'MUBI WEB-DL', \
