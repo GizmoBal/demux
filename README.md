@@ -2,7 +2,7 @@
 
 ## Description
 
-High quality remuxes such as CiNEPHiLES or ZQ remuxes come with a large number of tracks (sometimes more than 100) and tags. If you want to encode, demuxing properly can be quite a time-consuming task. This script aims at making it a breeze. It will extract all the files with appropriate names, create the corresponding tag files and even store the mkvmerge command to mux it back in a separate file.
+High quality remuxes such as CiNEPHiLES or ZQ remuxes come with a large number of tracks (sometimes more than 100) and tags. If you want to encode, then demuxing properly can be quite a time-consuming task. This script aims at making it a breeze. It will extract all the files with appropriate names, create the corresponding tag files and even store in a separate file, the `mkvmerge` command (including all the titles and delays) to mux it back.
 
 ## Requirements
 
