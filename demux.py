@@ -440,7 +440,8 @@ for track in media_info.tracks:
         else:
             delay = ' --sync 0:' + str(audioDelay[track.track_id])
         if track.title is not None:
-            title = re.sub('"', '\\\\"', track.title)
+            title = re.sub('"', '\\\\\"', track.title)
+            title = re.sub("''", '\'\"\'\"\'', track.title)
             title = ' --track-name 0:"' + title
         else:
             title = ''
