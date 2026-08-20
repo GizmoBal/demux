@@ -191,10 +191,10 @@ else:
 summary += f"{Style.BRIGHT}{Fore.BLUE}Video{Style.RESET_ALL}: {video}\n"
 if not args.remux:
     if "Dolby Vision" in video:
-        cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool extract-rpu -o RPU-orig.bin -'
+        cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -f hevc - | dovi_tool extract-rpu -o RPU-orig.bin -'
         subprocess.run(cmd, shell=True)
     if "HDR10+" in video:
-        cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | hdr10plus_tool extract -o HDR10plus-orig.json -'
+        cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -f hevc - | hdr10plus_tool extract -o HDR10plus-orig.json -'
         subprocess.run(cmd, shell=True)
     if "Dolby Vision" in video:
         summary += f"File {Fore.BLUE}RPU-orig.bin{Style.RESET_ALL} created.\n"
@@ -221,13 +221,13 @@ if not args.remux:
             else:
                 FEL= True
             if FEL:
-                cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool demux --el-only -'
+                cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -f hevc - | dovi_tool demux --el-only -'
                 subprocess.run(cmd, shell=True)
                 # subprocess.run('mkvmerge -v -o EL.mkv EL.hevc', shell=True)
                 subprocess.run('dovi_tool -c -m 2 extract-rpu -o RPU.bin EL.hevc', shell=True)
                 summary += f"File {Fore.BLUE}EL.hevc{Style.RESET_ALL} created.\n"
             else:
-                cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool -c -m 2 extract-rpu -o RPU.bin -'
+                cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -f hevc - | dovi_tool -c -m 2 extract-rpu -o RPU.bin -'
                 subprocess.run(cmd, shell=True)
             summary += f"File {Fore.BLUE}RPU.bin{Style.RESET_ALL} created.\n"
 else:
@@ -510,6 +510,7 @@ for track in media_info.tracks:
 muxCommand += '# \', shell=True)'
 
 if local:
+    os.system('ln -s ~/.virtualenv/encoding .venv')
     content = open(os.path.join(localDir, vsFile), 'r')
     if not args.remux:
         oldLoading = 'src = core.ffms2.Source(\'\')'
