@@ -272,7 +272,9 @@ for track in media_info.tracks:
                 break
         if not track.track_id in audioSource.keys() or audioSource[track.track_id] is None:
             audioSource[track.track_id] = 'Unknown'
-        if "commentary" in track.title.lower():
+        if track.title is None:
+            audioType.update({track.track_id: 'main'})
+        elif "commentary" in track.title.lower():
             audioType.update({track.track_id: 'commentary'})
         elif "compatibility" in track.title.lower():
             audioType.update({track.track_id: 'compatibility'})
