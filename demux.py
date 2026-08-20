@@ -201,7 +201,7 @@ else:
 summary += f"{Style.BRIGHT}{Fore.BLUE}Video{Style.RESET_ALL}: {video}\n"
 if not args.remux:
     if "Dolby Vision" in video:
-        cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -f hevc - | dovi_tool extract-rpu -o RPU-orig.bin -'
+        cmd = 'dovi_tool extract-rpu -o RPU-orig.bin ' + mkvFile
         subprocess.run(cmd, shell=True)
     if "HDR10+" in video:
         cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -f hevc - | hdr10plus_tool extract -o HDR10plus-orig.json -'
