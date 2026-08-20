@@ -27,6 +27,7 @@ WEB_TAGS = {'itunes': 'itunes', \
             'starzplay': 'stzp', \
             'crunchyroll': 'croll', \
             'viaplay': 'viaplay', \
+            'hulu': 'hulu', \
             'megogo': 'megogo' \
             }
 
@@ -46,6 +47,7 @@ WEB_NAMES = {'itunes': 'iTunes WEB-DL', \
              'stzp': 'StarzPlay WEB-DL', \
              'croll': 'Crunchyroll WEB-DL', \
              'megogo': 'MEGOGO WEB-DL', \
+             'hulu': 'Hulu WEB-DL', \
              'viaplay': 'Viaplay WEB-DL' \
              }
 
