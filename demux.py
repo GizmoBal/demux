@@ -57,6 +57,7 @@ WEB_NAMES = {'itunes': 'iTunes WEB-DL', \
              'croll': 'Crunchyroll WEB-DL', \
              'megogo': 'MEGOGO WEB-DL', \
              'hulu': 'Hulu WEB-DL', \
+             'pl': 'Player.pl WEB-DL', \
              'viaplay': 'Viaplay WEB-DL' \
              }
 
