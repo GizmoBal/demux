@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "argparse>=1.4.0",
+#     "colorama>=0.4.6",
+#     "pymediainfo>=7.0.1",
+# ]
+# ///
 
 import os
 import subprocess
@@ -28,6 +36,7 @@ WEB_TAGS = {'itunes': 'itunes', \
             'crunchyroll': 'croll', \
             'viaplay': 'viaplay', \
             'hulu': 'hulu', \
+            'player': 'pl', \
             'megogo': 'megogo' \
             }
 
