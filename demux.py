@@ -12,6 +12,7 @@ from colorama import Fore
 from colorama import Style
 
 WEB_TAGS = {'itunes': 'itunes', \
+            'apple': 'apple', \
             'netflix': 'nf', \
             'amazon': 'amzn', \
             'disney': 'dsnp', \
@@ -28,6 +29,7 @@ WEB_TAGS = {'itunes': 'itunes', \
             }
 
 WEB_NAMES = {'itunes': 'iTunes WEB-DL', \
+             'apple': 'Apple TV WEB-DL', \
              'nf': 'Netflix WEB-DL', \
              'amzn': 'Amazon Prime WEB-DL', \
              'dsnp': 'Disney+ WEB-DL', \
