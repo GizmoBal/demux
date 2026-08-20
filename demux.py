@@ -237,7 +237,7 @@ if not args.remux:
                 subprocess.run('dovi_tool -c -m 2 extract-rpu -o RPU.bin EL.hevc', shell=True)
                 summary += f"File {Fore.BLUE}EL.hevc{Style.RESET_ALL} created.\n"
             else:
-                cmd = 'ffmpeg -i "' + mkvFile + '" -c:v copy -f hevc - | dovi_tool -c -m 2 extract-rpu -o RPU.bin -'
+                cmd = 'dovi_tool -c -m 2 extract-rpu -o RPU.bin ' + mkvFile 
                 subprocess.run(cmd, shell=True)
             summary += f"File {Fore.BLUE}RPU.bin{Style.RESET_ALL} created.\n"
 else:
