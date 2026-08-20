@@ -128,8 +128,9 @@ for track in media_info.tracks:
         elif "laserdisc" in source.lower():
             newItem = {source: 'ld'}
             discTags.update(newItem)
-        elif "ray" in source.lower():
-            code = re.search(r" [A-Z][A-Z][A-Z] ",source).group().strip().lower()
+        # elif "ray" in source.lower():
+        elif re.match(r".*[A-Z][A-Z][A-Z].*",source):
+            code = re.search(r"[A-Z][A-Z][A-Z]",source).group().strip().lower()
             newItem = {source: code}
             discTags.update(newItem)
         else:
@@ -261,7 +262,7 @@ for track in media_info.tracks:
             if src == track.source or src in track.source.lower():
                 audioSource.update({track.track_id: sourceTags[src]})
                 break
-        if audioSource[track.track_id] is None:
+        if not track.track_id in audioSource.keys() or audioSource[track.track_id] is None:
             audioSource[track.track_id] = 'Unknown'
         if "commentary" in track.title.lower():
             audioType.update({track.track_id: 'commentary'})
@@ -300,7 +301,7 @@ for track in media_info.tracks:
             if src == track.source or src in track.source.lower():
                 subSource.update({track.track_id: sourceTags[src]})
                 break
-        if subSource[track.track_id] is None:
+        if not track.track_id in subSource.keys() or subSource[track.track_id] is None:
                 subSource[track.track_id] = 'Unknown'
         if track.title is not None:
             if "forced" in track.title.lower():
