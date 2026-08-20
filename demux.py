@@ -25,7 +25,9 @@ WEB_TAGS = {'itunes': 'itunes', \
             'peacock': 'pcock', \
             'cineasterna': 'cnast', \
             'starzplay': 'stzp', \
-            'crunchyroll': 'croll' \
+            'crunchyroll': 'croll', \
+            'viaplay': 'viaplay', \
+            'megogo': 'megogo' \
             }
 
 WEB_NAMES = {'itunes': 'iTunes WEB-DL', \
@@ -42,7 +44,9 @@ WEB_NAMES = {'itunes': 'iTunes WEB-DL', \
              'pcock': 'Peacock WEB-DL', \
              'cnast': 'Cineasterna WEB-DL', \
              'stzp': 'StarzPlay WEB-DL', \
-             'croll': 'Crunchyroll WEB-DL' \
+             'croll': 'Crunchyroll WEB-DL', \
+             'megogo': 'MEGOGO WEB-DL', \
+             'viaplay': 'Viaplay WEB-DL' \
              }
 
 AUDIO_CODECS = {'A_TRUEHD': 'thd', 'A_DTS': 'dtsma', 'A_FLAC': 'flac', 'A_AC3': 'ac3'}
